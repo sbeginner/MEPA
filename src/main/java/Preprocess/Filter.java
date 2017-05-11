@@ -13,8 +13,7 @@ public class Filter{
         //This filter uses MEPA method
         MEPAFilter.setInstances(instances);
         MEPAFilter.useFilter();
-
-        if(MEPADATA_OUTPUT_BTN) MEPAFilter.MEPAInstancesOutput();
+        MEPAFilter.MEPAInstancesOutput();
 
         return MEPAFilter.getInstances();
     }

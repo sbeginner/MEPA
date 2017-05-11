@@ -8,9 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static Setup.Config.CHARSETTYPE;
-import static Setup.Config.CURRENT_TIME;
-import static Setup.Config.FILEPATH;
+import static Setup.Config.*;
 
 /**
  * Created by JACK on 2017/5/4.
@@ -25,9 +23,17 @@ public class DataOutput{
     private String outputTestPath = outputRootPath+"/test/";
     private Charset charset = Charset.forName(CHARSETTYPE);
 
+
     public DataOutput(boolean currentMode, int currentFoldValid){
         this.currentMode = currentMode;
         this.currentFoldValid = currentFoldValid;
+
+        if(DIFFERENT_TESTDATA == 0){
+            outputTrainPath = outputRootPath+"/train/";
+            outputTestPath = outputRootPath+"/test/";
+        }else {
+            outputTestPath = outputRootPath+"/test"+DIFFERENT_TESTDATA+"/";
+        }
 
         checkOutputDirIsExist(outputRootPath);
         checkOutputDirIsExist(outputTrainPath);

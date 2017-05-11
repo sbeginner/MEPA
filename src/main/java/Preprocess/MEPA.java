@@ -24,6 +24,7 @@ import static Setup.Config.*;
  */
 public class MEPA extends MEPAEntropy {
     private Instances instances;
+    private boolean isPrepared = false;
 
     public MEPA(){
         this.queueForChildInstance = new LinkedList();
@@ -44,6 +45,20 @@ public class MEPA extends MEPAEntropy {
         //Travel all attributes
         IntStream.range(0, ATTRIBUTE_NUM)
                 .forEach(this::MEPAProcess);
+
+        setPrepared();
+        setNewTestDataNum();
+    }
+
+    private void setPrepared(){
+        if(isPrepared){
+            return;
+        }
+        isPrepared = true;
+    }
+
+    private void setNewTestDataNum(){
+        DIFFERENT_TESTDATA++;
     }
 
     private void MEPAProcess(int attributeInd){
@@ -53,13 +68,17 @@ public class MEPA extends MEPAEntropy {
         if(curAttribute.getAttributeType() == true){
             //If attribute type is string goes here
             //Membership degree is 1.0
-            remainInstanceInfo(curAttribute, true);
+            if(!isPrepared){
+                remainInstanceInfo(curAttribute, true);
+            }
             remainInstanceInfo(curAttribute, false);
         }else{
             //If attribute type is digital goes here
             //Train instance uses to find threshold, and their membership degree set 1.0
             //Test instance needs to calculate the membership degree for each
-            setTrainInstanceInfo(curAttribute);
+            if(!isPrepared){
+                setTrainInstanceInfo(curAttribute);
+            }
             setTestInstanceInfo(curAttribute);
         }
 
@@ -241,6 +260,10 @@ public class MEPA extends MEPAEntropy {
     }
 
     public void MEPAInstancesOutput(){
+        if(!MEPADATA_OUTPUT_BTN){
+            return;
+        }
+
         MEPATestInstancesOutput();
         MEPATrainInstancesOutput();
     }

@@ -78,11 +78,11 @@ public class MEPAMembershipMap {
         return getAllInstanceByAttr(instances.getAttribute(curAttrInd));
     }
 
-    private ArrayList<String> getAttributeValue(Attribute curAttr){
+    public ArrayList<String> getAttributeValue(Attribute curAttr){
         return attributeValueMap.get(curAttr);
     }
 
-    private ArrayList<String> getAttributeValue(int curAttrInd){
+    public ArrayList<String> getAttributeValue(int curAttrInd){
         return getAttributeValue(instances.getAttribute(curAttrInd));
     }
 

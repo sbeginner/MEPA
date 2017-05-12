@@ -4,6 +4,7 @@ import DataStructure.Attribute;
 import DataStructure.Instance;
 import DataStructure.Instances;
 import MathCalculate.Arithmetic;
+import Preprocess.MissingValue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -323,7 +324,6 @@ public class DataInput extends DataIOException {
     }
 
     private void missingValueProcess(){
-
         missingValueProcess(checkModeAndIsTest(checkCurrentMode(), checkIsTrainTest()));
         if(checkCurrentMode()){
             //only for train-test: test
@@ -333,72 +333,14 @@ public class DataInput extends DataIOException {
 
     private void missingValueProcess(boolean checkIsTest){
         //Missing value
+        MissingValue missingValue = new MissingValue(instances);
 
         //For String type, choose the mode one
-        IntStream.range(0, ATTRIBUTE_NUM)
-                .filter(currentAttributeInd -> instances.getAttributeMap().get(currentAttributeInd).getAttributeType())
-                .forEach(currentAttributeInd -> {
-                    String modeAttrvalue = instances.getAttributeMap()
-                            .get(currentAttributeInd)
-                            .getAttrValueMap(checkIsTest)
-                            .entrySet()
-                            .stream()
-                            .max((currentMax, currentComparenum) -> currentMax.getValue() > currentComparenum.getValue() ? 1 : -1)
-                            .get()
-                            .getKey();
-
-                    instances.getAttributeMap()
-                            .get(currentAttributeInd)
-                            .setForMissingValue(modeAttrvalue, checkIsTest);
-                });
+        missingValue.mode(checkIsTest);
 
         //For Digital type, choose the average
-        Map<Integer, Long> attributeMissingFrequency = instances.getmissingValueMap(checkIsTest)
-                .entrySet()
-                .stream()
-                .map(item -> item.getValue())
-                .flatMap(item -> item.stream())
-                .collect(Collectors.groupingBy(item -> item, Collectors.counting()));
-
-        IntStream.range(0, ATTRIBUTE_NUM)
-                .filter(currentAttributeInd -> !instances.getAttributeMap().get(currentAttributeInd).getAttributeType())
-                .forEach(currentAttributeInd -> {
-
-                    double countValueFrequency = instances.getAttributeMap()
-                            .get(currentAttributeInd)
-                            .getAttrValueMap(checkIsTest)
-                            .entrySet()
-                            .stream()
-                            .mapToDouble(item -> mul(createDouble(item.getKey()), item.getValue())).sum();
-
-                    double totalnum = setTotalnum(checkIsTest, attributeMissingFrequency, currentAttributeInd);
-
-                    double average = Arithmetic.div(countValueFrequency, totalnum);
-
-                    instances.getAttributeMap().get(currentAttributeInd).setForMissingValue(average, checkIsTest);
-                });
+        missingValue.average(checkIsTest);
     }
-
-    private double setTotalnumSelectInMode(double instancenum, Map<Integer, Long> attributeMissingFrequency, int currentAttributeInd){
-        if(attributeMissingFrequency.containsKey(currentAttributeInd)){
-            return Arithmetic.sub(instancenum, attributeMissingFrequency.get(currentAttributeInd));
-        }else{
-            return instancenum;
-        }
-    }
-
-    private double setTotalnum(boolean checkIsTest,  Map<Integer, Long> attributeMissingFrequency, int currentAttributeInd){
-        if(checkCurrentMode()){
-            if(checkIsTest){
-                return setTotalnumSelectInMode(INSTANCE_NUM_TEST, attributeMissingFrequency, currentAttributeInd);
-            }else{
-                return setTotalnumSelectInMode(INSTANCE_NUM_TRAIN, attributeMissingFrequency, currentAttributeInd);
-            }
-        }else {
-            return setTotalnumSelectInMode(INSTANCE_NUM, attributeMissingFrequency, currentAttributeInd);
-        }
-    }
-
 
     public void completeData(){
         //Missing value process

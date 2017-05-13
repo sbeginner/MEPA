@@ -142,7 +142,7 @@ public class Attribute{
     public int getAttrValueIndByString(String value){
         //get 'attribute value' index by string value, error return -1
         return IntStream.range(0, attrvalueTrainStringList.size())
-                .filter(i -> value.equals(attrvalueTrainStringList.get(i)))
+                .filter(i -> value.equals(attrvalueTrainStringList.get(i).toString()))
                 .findFirst()
                 .orElse(-1);
     }

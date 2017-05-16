@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.stream.IntStream;
 
 import static Setup.Config.MAX_FOLDNUM;
+import static Setup.Config.TARGET_ATTRIBUTE;
 
 /**
  * Created by jack on 2017/3/20.
@@ -49,6 +50,28 @@ public class Starton {
         dt.forTestInstance("C:/Data/test/test_USED.txt");
         instances = dt.getInstances();    //get data
         Filter.useFilter(instances, mepa);
+        System.out.println(instances.getTestInstanceMap());
+
+
+        //Use current MEPA-threshold to handle the new test data
+        dt.forTestInstance("C:/Data/test/test_USED.txt");
+        instances = dt.getInstances();    //get data
+        Filter.useFilter(instances, mepa);
+        System.out.println(instances.getTestInstanceMap());
+
+
+        //Use current MEPA-threshold to handle the new test data
+        dt.forTestInstance("C:/Data/test/test_USED.txt");
+        instances = dt.getInstances();    //get data
+        Filter.useFilter(instances, mepa);
+        System.out.println(instances.getTestInstanceMap());
+
+
+        //Use current MEPA-threshold to handle the new test data
+        dt.forTestInstance("C:/Data/test/test_USED.txt");
+        instances = dt.getInstances();    //get data
+        Filter.useFilter(instances, mepa);
+        System.out.println(instances.getTestInstanceMap());
     }
 
     public static void setConfig(){

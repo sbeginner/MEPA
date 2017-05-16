@@ -184,6 +184,8 @@ public class Attribute{
 
     public void transTrainAttrValueSet2AttrValueList(){
         //transfer the hash set to arraylist
+        resetTransTrainAttrValueSet2AttrValueList();
+
         attrvalueMap.forEach((attrValue, attrValuefrequency)->{
             attrvalueTrainStringList.add(new StringBuilder(attrValue));
             attrvalueTTStringList.add(new StringBuilder(attrValue));
@@ -192,6 +194,12 @@ public class Attribute{
         attrvalueMapforTest.forEach((attrValue, attrValuefrequency)->{
             attrvalueTTStringList.add(new StringBuilder(attrValue));
         });
+    }
+
+    private void resetTransTrainAttrValueSet2AttrValueList(){
+        attrvalueTrainStringList.clear();
+        attrvalueTTStringList.clear();
+        attrvalueTTStringList.clear();
     }
 
     public void createDoubleList(boolean isDigitalType){

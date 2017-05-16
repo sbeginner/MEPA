@@ -38,6 +38,8 @@ public class DataInput extends DataIOException {
     private Path inputTestPath = Paths.get(FILEPATH, FILETESTNAME);
     private Charset charset = Charset.forName(CHARSETTYPE);
 
+    private boolean isPrepared = false;
+
     public DataInput(){
         this.instances = new Instances();
         chgCurrentDateTime();
@@ -99,6 +101,7 @@ public class DataInput extends DataIOException {
     public void forTestInstance() throws IOException{
         switchForTrainTest(false);
         errorLineCountInit();
+        instances.resetTestInstance();
 
         BufferedReader inputBuffer = Files.newBufferedReader(inputTestPath, charset);
         setAttributeInfo(inputBuffer);
@@ -141,6 +144,7 @@ public class DataInput extends DataIOException {
                 .flatMap(attributeNameList -> attributeNameList.stream())
                 .collect(Collectors.toCollection(ArrayList::new));
 
+
         if(checkIsSecondTime()){
             //To avoid some problem about the order whether train command or test command first.
             //check the attribute both test and train are matched
@@ -148,10 +152,13 @@ public class DataInput extends DataIOException {
             return;
         }
 
-        attributeList.forEach(unitItem -> instances.setAttribute(unitItem));    //Set attribute only once
-        ATTRIBUTE_NUM = Math.toIntExact(attributeList.size());    //Reset attribute number
-        TARGET_ATTRIBUTE = ATTRIBUTE_NUM - 1;    //For default, the last one is the target attribute
-        switchAttributeFound();    //Switch on, cause the attribute is found
+        if(!isPrepared){
+            attributeList.forEach(unitItem -> instances.setAttribute(unitItem));    //Set attribute only once
+            ATTRIBUTE_NUM = Math.toIntExact(attributeList.size());    //Reset attribute number
+            TARGET_ATTRIBUTE = ATTRIBUTE_NUM - 1;    //For default, the last one is the target attribute
+            switchAttributeFound();    //Switch on, cause the attribute is found
+            isPrepared = true;
+        }
     }
 
     private void setTrainInstanceInfo(BufferedReader inputBuffer){

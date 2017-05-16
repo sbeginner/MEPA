@@ -72,6 +72,10 @@ public class Instances{
         trainInstanceMap.put(autoResizeIndex(trainInstanceMap), inst);
     }
 
+    public void resetTestInstance(){
+        testInstanceMap.clear();
+    }
+
     public void setTestInstance(Instance inst){
         inst.setInstances(this);
         testInstanceMap.put(autoResizeIndex(testInstanceMap), inst);

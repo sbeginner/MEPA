@@ -16,9 +16,9 @@ public class Starton {
     public static void main(String str[]) throws IOException {
         setConfig();
 
-        //MEPA_crossValidateModel(10,1);
+        MEPA_crossValidateModel(10,1);
 
-        MEPA_TrainTestModel(1);
+        //MEPA_TrainTestModel(1);
     }
 
     public static void MEPA_crossValidateModel(int maxfoldnum, int randseed) throws IOException {
@@ -38,6 +38,16 @@ public class Starton {
     }
 
     public static void MEPA_TrainTestModel(int randseed) throws IOException {
+        DataInput dt = new DataInput();
+        dt.forTrainTestInstance();
+        dt.completeData();
+        Instances instances = dt.getInstances();    //get data
+
+        MEPA mepa =new MEPA();
+        Filter.useFilter(instances, mepa);
+    }
+
+    public static void MEPA_TrainTestModeltest(int randseed) throws IOException {
         DataInput dt = new DataInput();
         dt.forTrainTestInstance();
         dt.completeData();

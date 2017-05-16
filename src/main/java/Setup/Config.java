@@ -31,7 +31,7 @@ public class Config {
     public static String UNKNOWNVALUE = "NA";
     public static String CURRENT_TIME = "20170504_225839295000000";
 
-    public static boolean AUTO_MISSINGVALUE_BTN = true;
+    public static boolean AUTO_MISSINGVALUE_BTN = false;
     public static boolean INSTANCEORDER_SHUFFLE_BTN = true;
-    public static boolean MEPADATA_OUTPUT_BTN = true;
+    public static boolean MEPADATA_OUTPUT_BTN = false;
 }

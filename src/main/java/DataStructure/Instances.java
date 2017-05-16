@@ -110,7 +110,11 @@ public class Instances{
     }
 
     public Instance getInstance(int index){
-        return this.instanceMap.get(index);
+        if(!INSTANCEORDER_SHUFFLE_BTN){
+            return this.instanceMap.get(index);
+        }
+
+        return this.shuffleInstanceMap.get(index);
     }
 
     private Instance getTrainInstance(int index){
@@ -134,7 +138,11 @@ public class Instances{
     }
 
     public  HashMap<Integer, Instance> getInstanceMap(){
-        return this.instanceMap;
+        if(!INSTANCEORDER_SHUFFLE_BTN){
+            return this.instanceMap;
+        }
+
+        return this.shuffleInstanceMap;
     }
 
     public HashMap<Integer, Instance> getTrainInstanceMap(){
@@ -194,6 +202,7 @@ public class Instances{
             currentInstanceMap = instanceMap;
         }else {
             currentInstanceMap = shuffleInstanceMap;
+            instanceMap = shuffleInstanceMap;
         }
         //front [0]; back [1]
         int[] frontback = splitMethodInWeka(valid);
@@ -246,10 +255,10 @@ public class Instances{
             return;
         }
 
-        shuffleInstanceMap = new HashMap(INSTANCE_NUM);
-        ArrayList<Integer> shufflekeylist = new ArrayList(instanceMap.keySet());
+        shuffleInstanceMap = new HashMap<>(INSTANCE_NUM);
+        ArrayList<Integer> shufflekeylist = new ArrayList<>(instanceMap.keySet());
         Collections.shuffle(shufflekeylist, new Random(RANDOM_SEED));
-        shufflekeylist.stream().forEach(orderedkey -> shuffleInstanceMap.put(orderedkey, instanceMap.get(orderedkey)));
+        shufflekeylist.stream().forEach(orderedkey -> shuffleInstanceMap.put(shuffleInstanceMap.size(), instanceMap.get(orderedkey)));
     }
 
     public void autoCVInKFold(int valid){

@@ -24,11 +24,6 @@ public class Attribute{
     private HashMap<String, Integer> attrvalueMap;           //Attribute value set in train or k-fold validation mode
     private HashMap<String, Integer> attrvalueMapforTest;    //Attribute value set in test mode
 
-    private double formissingNum;              //For replacing The missing number in train or k-fold validation mode
-    private String formissingStr;              //For replacing The missing string in train or k-fold validation mode
-    private double formissingNumForTest;       //For replacing The missing number in test mode
-    private String formissingStrForTest;       //For replacing The missing string in test mode
-
     ArrayList<Double> thresholdList;    //For double type attribute, calculating membership degree
 
     public Attribute(StringBuilder attributeName){
@@ -45,24 +40,6 @@ public class Attribute{
     public void setIndex(int index){
         //Set attribute index
         this.index = index;
-    }
-
-    public void setForMissingValue(double formissingNum, boolean checkIsTest){
-        //Set missing digital value
-        if(checkIsTest){
-            this.formissingNumForTest = formissingNum;
-            return;
-        }
-        this.formissingNum = formissingNum;
-    }
-
-    public void setForMissingValue(String formissingStr, boolean checkIsTest){
-        //Set missing string value
-        if(checkIsTest){
-            this.formissingStrForTest = formissingStr;
-            return;
-        }
-        this.formissingStr = formissingStr;
     }
 
     public void setAttributeType(boolean attributeTypeisStr){
@@ -95,22 +72,6 @@ public class Attribute{
     public int getIndex(){
         //Get attribute index
         return index;
-    }
-
-    public String getMissingValue(){
-        //Get value to replace the original missing value
-        if(getAttributeType()){
-            return this.formissingStr;
-        }
-        return String.valueOf(this.formissingNum);
-    }
-
-    public String getMissingValueTest(){
-        //Get value to replace the original missing value
-        if(getAttributeType()){
-            return this.formissingStrForTest;
-        }
-        return String.valueOf(this.formissingNumForTest);
     }
 
     public StringBuilder getAttributeName(){

@@ -17,7 +17,6 @@ public class Config {
     public static int MAX_FOLDNUM = 10;
     public static int RANDOM_SEED = 1994;
     public static int DIVIDE_CONSTRAINTNUM = 2;    //The split number, if = 0, can only split to two level
-    public static int DIFFERENT_TESTDATA = 0;    //The number replaces that uses MEPA-threshold(from train instance) on new test instance
 
     public static double MIN_DOUBLENUM = 0.0001;
 
@@ -31,7 +30,6 @@ public class Config {
     public static String UNKNOWNVALUE = "NA";
     public static String CURRENT_TIME = "20170504_225839295000000";
 
-    public static boolean AUTO_MISSINGVALUE_BTN = false;
     public static boolean INSTANCEORDER_SHUFFLE_BTN = true;
-    public static boolean MEPADATA_OUTPUT_BTN = false;
+    public static boolean MEPADATA_OUTPUT_BTN = true;
 }

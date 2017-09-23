@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.stream.IntStream;
 
 import static Setup.Config.MAX_FOLDNUM;
-import static Setup.Config.TARGET_ATTRIBUTE;
 
 /**
  * Created by jack on 2017/3/20.
@@ -24,7 +23,6 @@ public class Starton {
     public static void MEPA_crossValidateModel(int maxfoldnum, int randseed) throws IOException {
         DataInput dt = new DataInput();
         dt.forKfoldValidationInstance();
-        dt.completeData();
         Instances instances = dt.getInstances();    //get data
 
         instances.setRandSeed(randseed);         //Optional
@@ -40,7 +38,6 @@ public class Starton {
     public static void MEPA_TrainTestModel(int randseed) throws IOException {
         DataInput dt = new DataInput();
         dt.forTrainTestInstance();
-        dt.completeData();
         Instances instances = dt.getInstances();    //get data
 
         MEPA mepa =new MEPA();
@@ -50,7 +47,6 @@ public class Starton {
     public static void MEPA_TrainTestModeltest(int randseed) throws IOException {
         DataInput dt = new DataInput();
         dt.forTrainTestInstance();
-        dt.completeData();
         Instances instances = dt.getInstances();    //get data
 
         MEPA mepa =new MEPA();

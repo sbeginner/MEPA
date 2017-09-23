@@ -25,9 +25,6 @@ public class Instances{
     private HashMap<Integer, Instance> trainInstanceMap;
     private HashMap<Integer, Instance> testInstanceMap;
 
-    private HashMap<Integer, ArrayList<Integer>> missingValueMap;    //HashMap(lineNum, attributeInd list)
-    private HashMap<Integer, ArrayList<Integer>> missingValueMapforTest;    //HashMap(lineNum, attributeInd list)
-
     private MEPAMembershipMap MEPAMembershipForTrain;    //The MEPA-processed train instances, can get some information, e.g. 'MEPA membership degree'
     private MEPAMembershipMap MEPAMembershipForTest;    //The MEPA-processed test instances, can get some information, same as MEPAMembershipForTrain
 
@@ -38,23 +35,10 @@ public class Instances{
         trainInstanceMap = new HashMap(INSTANCE_NUM);
         testInstanceMap = new HashMap(INSTANCE_NUM);
 
-        missingValueMap = new HashMap(ATTRIBUTE_NUM);
-        missingValueMapforTest = new HashMap(ATTRIBUTE_NUM);
-
         MEPAMembershipForTrain = new MEPAMembershipMap(this);
         MEPAMembershipForTest = new MEPAMembershipMap(this);
     }
 
-
-    public void setMissingValueMap(Integer errorLine, ArrayList<Integer> missingValueAttrInd, boolean checkIsTrainTestmodeAndIsTest){
-        //train-test mode: train and k-fold mode as same process, train-test mode: test might use other container to store it.
-        if(checkIsTrainTestmodeAndIsTest){
-            this.missingValueMapforTest.put(errorLine, missingValueAttrInd);
-            return;
-        }
-
-        this.missingValueMap.put(errorLine, missingValueAttrInd);
-    }
 
     public void setAttribute(String attributeName){
         Attribute attr = new Attribute(new StringBuilder(attributeName));
@@ -151,14 +135,6 @@ public class Instances{
 
     public HashMap<Integer, Instance> getTestInstanceMap(){
         return this.testInstanceMap;
-    }
-
-    public HashMap<Integer, ArrayList<Integer>> getmissingValueMap( boolean checkIsTrainTestmodeAndIsTest){
-        if(checkIsTrainTestmodeAndIsTest){
-            return this.missingValueMapforTest;
-        }
-        //System.out.println(missingValueMap);
-        return this.missingValueMap;
     }
 
     public MEPAMembershipMap getMEPAMembershipMap(boolean isTest){
@@ -263,6 +239,8 @@ public class Instances{
 
     public void autoCVInKFold(int valid){
         //Only for k-fold validation, split the train and test instance in each fold.
+        autoShuffleInstanceOrder();
+
         this.currentFoldValid = valid;
         splitTrainTestInEachFold(valid);
     }

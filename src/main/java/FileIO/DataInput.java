@@ -3,8 +3,6 @@ package FileIO;
 import DataStructure.Attribute;
 import DataStructure.Instance;
 import DataStructure.Instances;
-import MathCalculate.Arithmetic;
-import Preprocess.MissingValue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,8 +21,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static MathCalculate.Arithmetic.checkCreatable;
-import static MathCalculate.Arithmetic.createDouble;
-import static MathCalculate.Arithmetic.mul;
 import static Setup.Config.*;
 
 /**
@@ -255,21 +251,6 @@ public class DataInput extends DataIOException {
                 //Instance loss item, detect by comma loss
                 errorAttributeBetweenTrainTest(2);
             }
-
-            if (emptyItemSet.size() > 0 || emptyItemSetTest.size() > 0) {
-                //Store missing value position, line and attribute
-
-                ArrayList<Integer> missingValueAttrInd = IntStream.range(0, ATTRIBUTE_NUM)
-                        .filter(currentAttributeInd -> UNKNOWNVALUE.equals(attarList.get(currentAttributeInd)))
-                        .boxed()
-                        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-
-                instances.setMissingValueMap(geterrorLine(), missingValueAttrInd, checkModeAndIsTest(checkCurrentMode(), checkIsTrainTest()));
-
-                if(!AUTO_MISSINGVALUE_BTN){
-                    errorAttributeBetweenTrainTest(3);
-                }
-            }
         }
 
         errorLineCountPlus();
@@ -294,13 +275,6 @@ public class DataInput extends DataIOException {
 
         //Transfer attribute value set type to arraylist type ,and set attribute type either digital or string.
         detectAttributeType();
-
-        if(!AUTO_MISSINGVALUE_BTN){
-            return;
-        }
-
-        //Auto complete missing value
-        completeData();
     }
 
     private void detectAttributeType(){
@@ -308,78 +282,32 @@ public class DataInput extends DataIOException {
         IntStream.range(0, ATTRIBUTE_NUM)
                 .forEach(currentAttributeInd -> {
                     Attribute curattr = instances.getAttributeMap().get(currentAttributeInd);
+
                     //Transfer attribute value set type to arraylist type.
                     curattr.transTrainAttrValueSet2AttrValueList();
 
-                    //Find out all the value under each attribute is digital or string.
-                    int checkAttrisStr = IntStream.range(0, instances.getAttributeMap().get(currentAttributeInd).getAllTTValueSize())
-                            .filter(currentValuenum -> {
-                                //return attribute value when the string type find out, when the string is detected then break the loop
-                                String curattrValue = curattr.getTTValue(currentValuenum).toString();
-                                Boolean curValueisStr = !checkCreatable(curattrValue);
-                                return curValueisStr;
-                            })
-                            .findAny()
-                            .orElse(NONVALUE_INTEGER);
+                    if(currentAttributeInd == TARGET_ATTRIBUTE){
+                        //Target always is string type...
+                        curattr.setAttributeType(true);
+                    }else {
+                        //Find out all the value under each attribute is digital or string.
+                        int checkAttrisStr = IntStream.range(0, instances.getAttributeMap().get(currentAttributeInd).getAllTTValueSize())
+                                .filter(currentValuenum -> {
+                                    //return attribute value when the string type find out, when the string is detected then break the loop
+                                    String curattrValue = curattr.getTTValue(currentValuenum).toString();
+                                    return !checkCreatable(curattrValue);
+                                })
+                                .findAny()
+                                .orElse(NONVALUE_INTEGER);
 
-                    //Variable: checkAttrisStr, -1 as Digital, >= 0 as String.
-                    curattr.setAttributeType(checkAttrisStr >= 0);
+                        //Variable: checkAttrisStr, -1 as Digital, >= 0 as String.
+                        curattr.setAttributeType(checkAttrisStr >= 0);
 
-                    //Create digital list if the type is digital
-                    curattr.createDoubleList(!curattr.getAttributeType());
+                        //Create digital list if the type is digital
+                        curattr.createDoubleList(!curattr.getAttributeType());
+                    }
                 });
     }
-
-    private void missingValueProcess(){
-        missingValueProcess(checkModeAndIsTest(checkCurrentMode(), checkIsTrainTest()));
-        if(checkCurrentMode()){
-            //only for train-test: test
-            missingValueProcess(!checkModeAndIsTest(checkCurrentMode(), checkIsTrainTest()));
-        }
-    }
-
-    private void missingValueProcess(boolean checkIsTest){
-        //Missing value
-        MissingValue missingValue = new MissingValue(instances);
-
-        //For String type, choose the mode one
-        missingValue.mode(checkIsTest);
-
-        //For Digital type, choose the average
-        missingValue.average(checkIsTest);
-    }
-
-    public void completeData(){
-        //Missing value process
-        missingValueProcess();
-        //Missing value process
-        completeDataMethod_Avg();
-    }
-
-    private void completeDataMethod_Avg(){
-        //Average method for digital, mode method for string
-        if(checkCurrentMode()){
-            //train-test mode
-            //train-test: train
-            instances.getmissingValueMap(false)
-                    .entrySet()
-                    .stream()
-                    .forEach(i -> instances.getInstance(false, i.getKey()).changeItemValue(i.getValue(),false));
-
-            //train-test: test
-            instances.getmissingValueMap(true)
-                    .entrySet()
-                    .stream()
-                    .forEach(i -> instances.getInstance(true, i.getKey()).changeItemValue(i.getValue(),true));
-        }else{
-            //k-fold validation mode
-            instances.getmissingValueMap(false)
-                    .entrySet()
-                    .stream()
-                    .forEach(i -> instances.getInstance(i.getKey()).changeItemValue(i.getValue(),false));
-        }
-    }
-
 
     public Instances getInstances(){
         return instances;

@@ -47,7 +47,6 @@ public class MEPA extends MEPAEntropy {
                 .forEach(this::MEPAProcess);
 
         setPrepared();
-        setNewTestDataNum();
     }
 
     private void setPrepared(){
@@ -55,10 +54,6 @@ public class MEPA extends MEPAEntropy {
             return;
         }
         isPrepared = true;
-    }
-
-    private void setNewTestDataNum(){
-        DIFFERENT_TESTDATA++;
     }
 
     private void MEPAProcess(int attributeInd){

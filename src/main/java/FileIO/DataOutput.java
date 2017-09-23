@@ -28,13 +28,6 @@ public class DataOutput{
         this.currentMode = currentMode;
         this.currentFoldValid = currentFoldValid;
 
-        if(DIFFERENT_TESTDATA == 0){
-            outputTrainPath = outputRootPath+"/train/";
-            outputTestPath = outputRootPath+"/test/";
-        }else {
-            outputTestPath = outputRootPath+"/test"+DIFFERENT_TESTDATA+"/";
-        }
-
         checkOutputDirIsExist(outputRootPath);
         checkOutputDirIsExist(outputTrainPath);
         checkOutputDirIsExist(outputTestPath);

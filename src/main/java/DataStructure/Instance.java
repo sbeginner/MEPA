@@ -61,20 +61,6 @@ public class Instance {
 
     }
 
-    public void changeItemValue(ArrayList<Integer> attributeList, boolean checkIsTest){
-        //Replace Missing Value
-        if(checkIsTest){
-            attributeList.stream().forEach(i->{
-                item.replace(instances.getAttribute(i), instances.getAttribute(i).getMissingValueTest());
-            });
-            return;
-        }
-
-        attributeList.stream().forEach(i->{
-            item.replace(instances.getAttribute(i), instances.getAttribute(i).getMissingValue());
-        });
-    }
-
     public void changeItemValueToStr(int attrIndex, String digitalToStr){
         item.replace(instances.getAttribute(attrIndex), digitalToStr);
     }

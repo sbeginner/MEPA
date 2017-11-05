@@ -20,7 +20,6 @@ public class Config {
 
     public static double MIN_DOUBLENUM = 0.0001;
 
-
     public static String FILEPATH = "C:/Data/test";
     public static String FILENAME = "origin.txt";
     public static String FILETRAINNAME = "train.txt";
@@ -31,5 +30,5 @@ public class Config {
     public static String CURRENT_TIME = "20170504_225839295000000";
 
     public static boolean INSTANCEORDER_SHUFFLE_BTN = true;
-    public static boolean MEPADATA_OUTPUT_BTN = true;
+    public static boolean MEPADATA_OUTPUT_BTN = false;
 }

@@ -36,10 +36,6 @@ public class MEPA extends MEPAEntropy {
         this.instances = instances;
     }
 
-    public void setDivConstraintNum(int divConstraintNum){
-        //Set the number for the range to split, divide constraint number
-        DIVIDE_CONSTRAINTNUM = divConstraintNum;
-    }
 
     public void useFilter(){
         //Travel all attributes
@@ -60,7 +56,7 @@ public class MEPA extends MEPAEntropy {
 
         Attribute curAttribute = instances.getAttribute(attributeInd);
 
-        if(curAttribute.getAttributeType() == true){
+        if(curAttribute.getAttributeType()){
             //If attribute type is string goes here
             //Membership degree is 1.0
             if(!isPrepared){
@@ -177,6 +173,8 @@ public class MEPA extends MEPAEntropy {
         //The number categorize into its range
         String replaceStr;
         boolean degreeIsUnderEstimate;
+
+
 
         //Special case in divide num = 0
         if(bestThresholdList.size() == 1){

@@ -13,11 +13,11 @@ import static Setup.Config.MAX_FOLDNUM;
  */
 public class Starton {
     public static void main(String str[]) throws IOException {
-        setConfig();
+//        setConfig();
+//
+//        MEPA_crossValidateModel(10,1);
 
-        MEPA_crossValidateModel(10,1);
-
-        //MEPA_TrainTestModel(1);
+//        MEPA_TrainTestModel(1);
     }
 
     public static void MEPA_crossValidateModel(int maxfoldnum, int randseed) throws IOException {
@@ -81,16 +81,16 @@ public class Starton {
     }
 
     public static void setConfig(){
-        Setup.Config.DIVIDE_CONSTRAINTNUM = 10;//split num
+        Setup.Config.DIVIDE_CONSTRAINTNUM = 5;//split num
 
         //Root
-        Setup.Config.FILEPATH = "C:/Data/test";
+        Setup.Config.FILEPATH = "C:/Data/Biotset/glass";
 
         //K-fold validation data
-        Setup.Config.FILENAME = "valid_USED.txt";// k-fold validation data
+        Setup.Config.FILENAME = "origin.txt";// k-fold validation data
 
         //Train-Test data
-        Setup.Config.FILETRAINNAME = "train_USED.txt";// Train data
-        Setup.Config.FILETESTNAME = "test.txt";// Test data
+        Setup.Config.FILETRAINNAME = "weka_test.csv";// Train data
+        Setup.Config.FILETESTNAME = "weka_test.csv";// Test data
     }
 }

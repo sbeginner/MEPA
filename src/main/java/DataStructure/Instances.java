@@ -4,10 +4,7 @@ package DataStructure;
 import Container.MEPAMembership;
 import Container.MEPAMembershipMap;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 import static Setup.Config.*;
 
@@ -218,7 +215,7 @@ public class Instances{
             offset = INSTANCE_NUM % MAX_FOLDNUM;
         }
 
-        front = valid * numInstForFold + offset;
+        front = valid * (INSTANCE_NUM / MAX_FOLDNUM) + offset;
         back = front + numInstForFold;
 
         return new int[]{front, back};

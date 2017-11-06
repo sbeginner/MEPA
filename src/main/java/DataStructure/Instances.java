@@ -91,11 +91,7 @@ public class Instances{
     }
 
     public Instance getInstance(int index){
-        if(!INSTANCEORDER_SHUFFLE_BTN){
-            return this.instanceMap.get(index);
-        }
-
-        return this.shuffleInstanceMap.get(index);
+        return this.instanceMap.get(index);
     }
 
     private Instance getTrainInstance(int index){
@@ -119,11 +115,7 @@ public class Instances{
     }
 
     public  HashMap<Integer, Instance> getInstanceMap(){
-        if(!INSTANCEORDER_SHUFFLE_BTN){
-            return this.instanceMap;
-        }
-
-        return this.shuffleInstanceMap;
+        return this.instanceMap;
     }
 
     public HashMap<Integer, Instance> getTrainInstanceMap(){
@@ -170,13 +162,8 @@ public class Instances{
         this.trainInstanceMap.clear();
         this.testInstanceMap.clear();
 
-        if(!INSTANCEORDER_SHUFFLE_BTN){
-            //For no shuffle
-            currentInstanceMap = instanceMap;
-        }else {
-            currentInstanceMap = shuffleInstanceMap;
-            instanceMap = shuffleInstanceMap;
-        }
+        currentInstanceMap = instanceMap;
+
         //front [0]; back [1]
         int[] frontback = splitMethodInWeka(valid);
         splitTrainTest(currentInstanceMap, frontback);
@@ -231,13 +218,11 @@ public class Instances{
         shuffleInstanceMap = new HashMap<>(INSTANCE_NUM);
         ArrayList<Integer> shufflekeylist = new ArrayList<>(instanceMap.keySet());
         Collections.shuffle(shufflekeylist, new Random(RANDOM_SEED));
-        shufflekeylist.stream().forEach(orderedkey -> shuffleInstanceMap.put(shuffleInstanceMap.size(), instanceMap.get(orderedkey)));
+        shufflekeylist.forEach(orderedkey -> shuffleInstanceMap.put(shuffleInstanceMap.size(), instanceMap.get(orderedkey)));
+        instanceMap = shuffleInstanceMap;
     }
 
     public void autoCVInKFold(int valid){
-        //Only for k-fold validation, split the train and test instance in each fold.
-        autoShuffleInstanceOrder();
-
         this.currentFoldValid = valid;
         splitTrainTestInEachFold(valid);
     }

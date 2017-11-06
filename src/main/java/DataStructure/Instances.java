@@ -219,6 +219,7 @@ public class Instances{
         ArrayList<Integer> shufflekeylist = new ArrayList<>(instanceMap.keySet());
         Collections.shuffle(shufflekeylist, new Random(RANDOM_SEED));
         shufflekeylist.forEach(orderedkey -> shuffleInstanceMap.put(shuffleInstanceMap.size(), instanceMap.get(orderedkey)));
+        System.out.println(instanceMap.size()+" "+shuffleInstanceMap.size());
         instanceMap = shuffleInstanceMap;
     }
 

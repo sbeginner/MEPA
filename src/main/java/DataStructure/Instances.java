@@ -27,10 +27,10 @@ public class Instances{
 
 
     public Instances(){
-        attributesMap = new HashMap(ATTRIBUTE_NUM);
-        instanceMap = new HashMap(INSTANCE_NUM);
-        trainInstanceMap = new HashMap(INSTANCE_NUM);
-        testInstanceMap = new HashMap(INSTANCE_NUM);
+        attributesMap = new HashMap<>(ATTRIBUTE_NUM);
+        instanceMap = new HashMap<>(INSTANCE_NUM);
+        trainInstanceMap = new HashMap<>(INSTANCE_NUM);
+        testInstanceMap = new HashMap<>(INSTANCE_NUM);
 
         MEPAMembershipForTrain = new MEPAMembershipMap(this);
         MEPAMembershipForTest = new MEPAMembershipMap(this);

@@ -13,10 +13,8 @@ import static Setup.Config.MAX_FOLDNUM;
  */
 public class Starton {
     public static void main(String str[]) throws IOException {
-//        setConfig();
-//
-//        MEPA_crossValidateModel(10,1);
-
+        setConfig();
+        MEPA_crossValidateModel(10,1);
 //        MEPA_TrainTestModel(1);
     }
 
@@ -84,7 +82,7 @@ public class Starton {
         Setup.Config.DIVIDE_CONSTRAINTNUM = 5;//split num
 
         //Root
-        Setup.Config.FILEPATH = "C:/Data/Biotset/glass";
+        Setup.Config.FILEPATH = "C:/Data/Biotset/liver";
 
         //K-fold validation data
         Setup.Config.FILENAME = "origin.txt";// k-fold validation data
